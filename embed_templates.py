@@ -6,7 +6,7 @@ def create_project_embed(project: Project) -> Embed:
     embed = Embed(
         title=f"Project: {project.projectName}",
         description=f"----------------------------",
-        color=0x3498DB,
+        color=0xDD7C36,
     )
 
     for _, section in project.sections.items():
