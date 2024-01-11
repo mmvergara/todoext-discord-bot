@@ -9,10 +9,6 @@ def create_project_embed(project: Project) -> Embed:
         color=0x3498DB,
     )
 
-    embed.set_thumbnail(url="https://i.imgur.com/axLm3p6.png")
-    embed.thumbnail.width = 300
-    embed.thumbnail.height = 300
-
     for _, section in project.sections.items():
         section_str = ""
         for _, task in section["tasks"].items():
@@ -25,7 +21,8 @@ def create_project_embed(project: Project) -> Embed:
 
 def error_embed(error_message: str):
     embed = Embed(
-        title=f"Error: {error_message}",
+        title="Error",
+        description=f"{error_message}",
         color=0xF73939,
     )
     return embed

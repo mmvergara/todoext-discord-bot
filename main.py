@@ -38,7 +38,7 @@ async def ping(interaction):
 @app_commands.describe(project_key="Project Key")
 async def connect(interaction, project_key: str):
     try:
-        await connect_user(interaction.user.id, project_key)
+        connect_user(interaction.user.id, project_key)
         await interaction.response.send_message(f"Connected to {project_key}")
     except Exception as e:
         print(e)

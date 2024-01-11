@@ -23,7 +23,7 @@ class MyCommands(commands.Cog):
         if project is None:
             await ctx.send(
                 embed=error_embed(
-                    "Invalide Project Key, please try to connect again using /connect"
+                    "Invalid Project Key, please try to connect again using /connect"
                 )
             )
             return
