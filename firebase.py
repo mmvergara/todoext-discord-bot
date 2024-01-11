@@ -17,7 +17,7 @@ def connect_user(discord_user_id: str, project_id: str):
     user_ref.set({"project_id": project_id})
 
 
-def get_project_id(discord_user_id: str):
+def get_project_key_by_discord_user_id(discord_user_id: str):
     """Get the project id for a discord user"""
     user_ref = db.collection("discord_users").document(discord_user_id)
     doc = user_ref.get()
@@ -34,17 +34,17 @@ def get_project(project_key: str) -> Project:
     for doc in docs:
         project_dict = doc.to_dict()
         project = Project(
-            project_id=doc.id,
-            project_name=project_dict["projectName"],
-            project_key=project_dict["projectKey"],
-            owner_id=project_dict["ownerId"],
+            projectId=doc.id,
+            projectName=project_dict["projectName"],
+            projectKey=project_dict["projectKey"],
+            ownerId=project_dict["ownerId"],
             collaborators=project_dict["collaborators"],
-            created_at=project_dict["createdAt"],
+            createdAt=project_dict["createdAt"],
             sections=project_dict["sections"],
         )
+
         return project
 
     return None
 
 
-print(get_project("qweqwe89c386f858g5geeidk5j"))
