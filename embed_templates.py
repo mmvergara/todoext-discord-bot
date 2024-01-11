@@ -5,7 +5,7 @@ from discord import Embed
 def create_project_embed(project: Project) -> Embed:
     embed = Embed(
         title=f"Project: {project.projectName}",
-        description=f"-----------------",
+        description=f"----------------------------",
         color=0x3498DB,
     )
 
@@ -13,7 +13,7 @@ def create_project_embed(project: Project) -> Embed:
         section_str = ""
         for _, task in section["tasks"].items():
             section_str += f"{task['taskName']}\n"
-        section_str += "----------------- \n"
+        section_str += "---------------------------- \n"
         embed.add_field(name=section["sectionName"], value=section_str, inline=False)
 
     return embed
