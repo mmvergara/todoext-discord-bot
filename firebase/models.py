@@ -1,6 +1,6 @@
 from typing import Dict
 from datetime import datetime
-
+import firebase_admin
 
 class Project:
     def __init__(
@@ -10,7 +10,7 @@ class Project:
         projectKey: str,
         ownerId: str,
         collaborators: Dict[str, str],
-        createdAt: datetime,
+        createdAt: firebase_admin.datetime,
         sections: Dict[str, "Section"],
     ):
         self.projectId = projectId

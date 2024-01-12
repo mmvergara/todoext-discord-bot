@@ -1,5 +1,5 @@
 from discord.ext import commands
-from firebase.firebase import get_project, get_project_key_by_discord_user_id
+from firebase.api.projects import get_project, get_project_key_by_discord_user_id
 from helpers.embed_templates import create_project_embed, error_embed
 
 
