@@ -1,5 +1,5 @@
 from firebase.models import Project
-from firebase.firebase import db
+from firebase.firestore import db
 
 
 def get_project_key_by_discord_user_id(discord_user_id: str):
@@ -10,6 +10,15 @@ def get_project_key_by_discord_user_id(discord_user_id: str):
         return doc.to_dict()["project_id"]
     else:
         return None
+
+
+def get_project_id_by_project_key(project_key: str):
+    """Get the project id for a project key"""
+    project_ref = db.collection("projects").where("projectKey", "==", project_key)
+    docs = project_ref.stream()
+    for doc in docs:
+        return doc.id
+    return None
 
 
 def get_project(project_key: str) -> Project:

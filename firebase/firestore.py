@@ -12,8 +12,8 @@ db = firestore.client()
 
 print("Firebase initialized")
 
+
 def connect_user(discord_user_id: str, project_id: str):
     """Connect a discord user to a project"""
     user_ref = db.collection("discord_users").document(str(discord_user_id))
     user_ref.set({"project_id": project_id})
-

@@ -1,3 +1,4 @@
 python-dotenv
 firebase-admin
 discord.py
+google-cloud-firestore
