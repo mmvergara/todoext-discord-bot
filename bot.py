@@ -23,17 +23,15 @@ async def on_ready():
 @bot.tree.command(
     name="ping",
     description="Shows the bot latency",
-    guild=discord.Object(id=test_guild),
 )
 async def ping(interaction):
     await interaction.response.send_message(f"Pong! {round(bot.latency * 1000)}ms")
 
 
-# take 1 argument, a project name
+# Connect to a project
 @bot.tree.command(
     name="connect",
     description="Connect to a project",
-    guild=discord.Object(id=test_guild),
 )
 @app_commands.describe(project_key="Project Key")
 async def connect(interaction, project_key: str):
