@@ -10,6 +10,3 @@ def generate_section_id():
     return section_id
 
 
-# Example usage
-result = generate_section_id()
-print(result)

@@ -9,7 +9,8 @@ from firebase.api.projects import (
     get_project_key_by_discord_user_id,
     get_project_id_by_project_key,
 )
-from helpers.embed_templates import error_embed
+from firebase.api.projects import get_project
+from helpers.embed_templates import error_embed, create_project_embed
 
 test_guild = 910166218181345320
 bot = commands.Bot(command_prefix="td ", intents=discord.Intents.all())
@@ -19,7 +20,7 @@ bot = commands.Bot(command_prefix="td ", intents=discord.Intents.all())
 async def on_ready():
     await bot.load_extension("cogs.text_commands")
     try:
-        await bot.tree.sync(guild=discord.Object(id=test_guild))
+        # await bot.tree.sync(guild=discord.Object(id=test_guild))
         print("Synced")
     except Exception as e:
         print(e)
@@ -49,6 +50,38 @@ async def connect_cmd(interaction, project_key: str):
         await interaction.response.send_message(f"Error Connecting to {project_key}")
 
 
+# Show
+@bot.tree.command(
+    name="show",
+    description="Show the project",
+)
+async def show_cmd(interaction: discord.Interaction):
+    project_key = get_project_key_by_discord_user_id(str(discord.user.id))
+    if project_key is None:
+        await interaction.response.send_message(
+            embed=error_embed(
+                "No project found, please connect to a project first using /connect"
+            )
+        )
+        return
+
+    # Get the project
+    project = get_project(project_key)
+    if project is None:
+        await interaction.response.send_message(
+            embed=error_embed(
+                "Invalid Project Key, please try to connect again using /connect"
+            )
+        )
+        return
+
+    # Create an embed using the provided function
+    embed = create_project_embed(project)
+
+    # Send the embed
+    await interaction.response.send_message(embed=embed)
+
+
 # Add Section
 @bot.tree.command(
     name="add-section",
@@ -67,7 +100,27 @@ async def add_section_cmd(interaction, section_name: str):
 @app_commands.describe(section_id="Section ID")
 @app_commands.describe(task_name="New Task Name")
 async def add_task_cmd(interaction, section_id: str, task_name: str):
-    await interaction.response.send_message(f"Added {task_name} to {section_id}")
+    # Get Project Key from Discord User Id
+    project_key = get_project_key_by_discord_user_id(str(interaction.user.id))
+    if project_key is None:
+        await interaction.response.send_message(
+            embed=error_embed("You are not connected to a project")
+        )
+        return
+    # Get Project Id from Project Key
+    project_id = get_project_id_by_project_key(project_key)
+    if project_id is None:
+        await interaction.response.send_message(
+            embed=error_embed("Error getting project id")
+        )
+        return
+
+    # Add Task
+    res = add_section(project_id, section_id, task_name)
+    if res:
+        await interaction.response.send_message(f"Added {task_name} to {section_id}")
+    else:
+        await interaction.response.send_message(embed=error_embed("Error adding task"))
 
 
 # Delete Section
