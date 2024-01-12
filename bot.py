@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 from dotenv import load_dotenv, find_dotenv
-from firebase import connect_user
+from firebase.firebase import connect_user
 
 test_guild = 910166218181345320
 bot = commands.Bot(command_prefix="td ", intents=discord.Intents.all())

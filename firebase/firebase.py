@@ -1,6 +1,6 @@
 import os
 from firebase_admin import credentials, firestore, initialize_app
-from models import Project
+from firebase.models import Project
 
 # Initialize Firebase
 service_key_path = os.path.join(os.path.dirname(__file__), "firebase-credentials.json")

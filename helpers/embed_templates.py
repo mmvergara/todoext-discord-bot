@@ -1,4 +1,4 @@
-from models import Project
+from firebase.models import Project
 from discord import Embed
 
 
