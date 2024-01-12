@@ -5,6 +5,7 @@ from discord import app_commands
 from dotenv import load_dotenv, find_dotenv
 from firebase.firestore import connect_user
 from firebase.api.sections import add_section, delete_section
+from firebase.api.tasks import add_task
 from firebase.api.projects import (
     get_project_key_by_discord_user_id,
     get_project_id_by_project_key,
@@ -116,7 +117,7 @@ async def add_task_cmd(interaction, section_id: str, task_name: str):
         return
 
     # Add Task
-    res = add_section(project_id, section_id, task_name)
+    res = add_task(project_id, section_id, task_name)
     if res:
         await interaction.response.send_message(f"Added {task_name} to {section_id}")
     else:

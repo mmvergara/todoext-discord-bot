@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 
 
 def generate_section_id():
@@ -10,3 +11,5 @@ def generate_section_id():
     return section_id
 
 
+def generate_task_id():
+    return generate_section_id() + str(int(datetime.now().timestamp()))
