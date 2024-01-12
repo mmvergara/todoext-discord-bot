@@ -8,27 +8,27 @@ def create_project_embed(project: Project) -> Embed:
         description=f"----------------------------",
         color=0xDD7C36,
     )
-    # Sort sections by createdAt
-    sorted_sections = sorted(project.sections.items(), key=lambda x: x[1]["createdAt"])
 
-    for section_id, section in sorted_sections:
+    for section_id, section in project.sections.items():
+        # Skip empty sections
         if len(section["tasks"]) == 0:
             continue
 
-        # Sort tasks by createdAt
-        sorted_tasks = sorted(section["tasks"].items(), key=lambda x: x[1]["createdAt"])
         section_str = ""
-        for _, task in sorted_tasks:
+        for _, task in section["tasks"].items():
             section_str += f"{task['taskName']}\n"
         section_str += "---------------------------- \n"
-        embed.add_field(name=f"{section['sectionName']} | {section_id}", value=section_str, inline=False)
+        embed.add_field(
+            name=f"{section['sectionName']} - #{section_id}",
+            value=section_str,
+            inline=False,
+        )
 
     return embed
 
 
 def error_embed(error_message: str):
     embed = Embed(
-        title="Error",
         description=f"{error_message}",
         color=0xF73939,
     )

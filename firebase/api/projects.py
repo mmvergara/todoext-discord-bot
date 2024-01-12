@@ -28,6 +28,19 @@ def get_project(project_key: str) -> Project:
             sections=project_dict["sections"],
         )
 
+        # Sort tasks in each section by createdAt
+        for section in project.sections.values():
+            sorted_tasks = sorted(
+                section["tasks"].items(), key=lambda x: x[1]["createdAt"]
+            )
+            section["tasks"] = dict(sorted_tasks)
+
+        # Sort sections by createdAt
+        sorted_sections = sorted(
+            project.sections.items(), key=lambda x: x[1]["createdAt"]
+        )
+        project.sections = dict(sorted_sections)
+
         return project
 
     return None
