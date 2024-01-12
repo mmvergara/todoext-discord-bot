@@ -14,6 +14,9 @@ def get_project_key_by_discord_user_id(discord_user_id: str):
 
 def get_project_id_by_project_key(project_key: str):
     """Get the project id for a project key"""
+    print("=====================================")
+    print(f"Getting project id for project key {project_key}")
+    print("\n\n")
     project_ref = db.collection("projects").where("projectKey", "==", project_key)
     docs = project_ref.stream()
     for doc in docs:
