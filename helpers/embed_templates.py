@@ -11,7 +11,7 @@ def create_project_embed(project: Project) -> Embed:
     # Sort sections by createdAt
     sorted_sections = sorted(project.sections.items(), key=lambda x: x[1]["createdAt"])
 
-    for _, section in sorted_sections:
+    for section_id, section in sorted_sections:
         if len(section["tasks"]) == 0:
             continue
 
@@ -21,7 +21,7 @@ def create_project_embed(project: Project) -> Embed:
         for _, task in sorted_tasks:
             section_str += f"{task['taskName']}\n"
         section_str += "---------------------------- \n"
-        embed.add_field(name=section["sectionName"], value=section_str, inline=False)
+        embed.add_field(name=f"{section['sectionName']} | {section_id}", value=section_str, inline=False)
 
     return embed
 

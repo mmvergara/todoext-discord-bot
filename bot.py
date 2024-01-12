@@ -42,6 +42,16 @@ async def connect(interaction, project_key: str):
         print(e)
         await interaction.response.send_message(f"Error Connecting to {project_key}")
 
+# Add Task
+@bot.tree.command(
+    name="add-task",
+    description="Add a task",
+)
+@app_commands.describe(section_name="Section Name")
+@app_commands.describe(task_name="Task Name")
+async def add_task(interaction, section_name: str, task_name: str):
+    await interaction.response.send_message(f"Added {task_name} to {section_name}")
+
 
 # Load the .env file
 load_dotenv(find_dotenv())
