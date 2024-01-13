@@ -198,7 +198,7 @@ async def delete_section_cmd(interaction: discord.Interaction, section_id: str):
 @app_commands.describe(section_id="Section ID")
 @app_commands.describe(task_id="Task Name")
 async def delete_task_cmd(interaction, section_id: str, task_id: str):
-    await interaction.response.send_message(f"Deleted {task_id} from {section_id}")
+    await interaction.response.send_message(f"This command is not implemented yet")
 
 
 # Load the .env file
