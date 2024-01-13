@@ -5,7 +5,7 @@ from firebase.firestore import db
 def get_project_key_by_discord_user_id(discord_user_id: str):
     """Get the project id for a discord user"""
     print(f"API: Getting project key for discord user {discord_user_id}")
-    user_ref = db.collection("discord_users").document(discord_user_id)
+    user_ref = db.collection("discord_users").document(str(discord_user_id))
     doc = user_ref.get()
     if doc.exists:
         return doc.to_dict()["project_id"]

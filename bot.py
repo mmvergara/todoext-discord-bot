@@ -20,8 +20,13 @@ bot = commands.Bot(command_prefix="td ", intents=discord.Intents.all())
 @bot.event
 async def on_ready():
     await bot.load_extension("cogs.text_commands")
+    await bot.change_presence(
+        activity=discord.Activity(
+            type=discord.ActivityType.playing, name="todoext.vercel.app"
+        )
+    )
     try:
-        # await bot.tree.sync(guild=discord.Object(id=test_guild))
+        # await bot.tree.sync()
         print("Synced")
     except Exception as e:
         print(e)
@@ -44,7 +49,7 @@ async def ping_cmd(interaction):
 @app_commands.describe(project_key="Project Key")
 async def connect_cmd(interaction, project_key: str):
     try:
-        connect_user(interaction.user.id, project_key)
+        connect_user(str(interaction.user.id), project_key)
         await interaction.response.send_message(f"Connected to {project_key}")
     except Exception as e:
         print(e)
@@ -57,7 +62,7 @@ async def connect_cmd(interaction, project_key: str):
     description="Show the project",
 )
 async def show_cmd(interaction: discord.Interaction):
-    project_key = get_project_key_by_discord_user_id(str(discord.user.id))
+    project_key = get_project_key_by_discord_user_id(str(interaction.user.id))
     if project_key is None:
         await interaction.response.send_message(
             embed=error_embed(
@@ -90,7 +95,35 @@ async def show_cmd(interaction: discord.Interaction):
 )
 @app_commands.describe(section_name="New Section Name")
 async def add_section_cmd(interaction, section_name: str):
-    await interaction.response.send_message(f"Added {section_name}")
+    # Get Project Key from Discord User Id
+    project_key = get_project_key_by_discord_user_id(str(interaction.user.id))
+
+    if project_key is None:
+        await interaction.response.send_message(
+            embed=error_embed(
+                "No project found, please connect to a project first using /connect"
+            )
+        )
+        return
+
+    # Get Project Id from Project Key
+    project_id = get_project_id_by_project_key(project_key)
+    if project_id is None:
+        await interaction.response.send_message(
+            embed=error_embed(
+                "Invalid Project Key, please try to connect again using /connect"
+            )
+        )
+        return
+
+    # Add Section
+    res = add_section(project_id, section_name)
+    if res:
+        await interaction.response.send_message(f"Added {section_name} Section")
+    else:
+        await interaction.response.send_message(
+            embed=error_embed("Error adding section")
+        )
 
 
 # Add Task
